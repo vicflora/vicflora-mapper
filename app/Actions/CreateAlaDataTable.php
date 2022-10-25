@@ -15,13 +15,21 @@
 
 namespace App\Actions;
 
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateAlaDataTable {
     
-    public function __invoke(string $table)
+    public function __invoke(string $table, string $schema='ala')
     {
-        Schema::create($table, function (Blueprint $table) {
+        DB::statement("drop table if exists $schema.{$table}_old");
+
+        if (Schema::hasTable("$schema.$table")) {
+            DB::statement("alter table $schema.$table rename to {$table}_old");
+        }
+
+        Schema::create($schema . '.' . $table, function (Blueprint $table) {
             $table->uuid('uuid');
             $table->timestampsTz();
             $table->string('data_resource_uid', 16)->nullable();
@@ -38,7 +46,6 @@ class CreateAlaDataTable {
             $table->string('establishment_means', 32)->nullable();
             $table->string('degree_of_establishment', 32)->nullable();
             $table->string('reproductive_condition')->nullable();
-            $table->point('geom', 'GEOMETRY', 4326)->nullable();
             $table->bigInteger('parsed_name_id')->nullable();
         });
         return 0;
