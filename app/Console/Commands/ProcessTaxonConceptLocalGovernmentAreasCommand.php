@@ -16,7 +16,7 @@ class ProcessTaxonConceptLocalGovernmentAreasCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'mapper:process_taxon_concept_local_government_areas';
+    protected $signature = 'mapper:process-taxon-concept-local-government-areas';
 
     /**
      * The console command description.
