@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Actions\AddIndexesToTaxonConceptOccurrencesTable;
 use App\Actions\CreateTaxonConceptOccurrencesTable;
+use App\Actions\CreateTaxonConceptOccurrencesView;
 use App\Actions\CreateTaxonConceptPhenologyView;
 use App\Actions\PopulateTaxonConceptOccurrencesTable;
 use Illuminate\Console\Command;
