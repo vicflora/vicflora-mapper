@@ -49,6 +49,11 @@ class ProcessTaxonConceptOccurrencesCommand extends Command
         $addIndexes = new AddIndexesToTaxonConceptOccurrencesTable;
         $addIndexes();
 
+        $this->info('Create taxon_occurrences_view');
+        DB::statement('drop view if exists taxon_concept_occurrences_view');
+        $createView = new CreateTaxonConceptOccurrencesView;
+        $createView();
+        
         $this->info('Create taxon_concept_phenology_view');
         DB::statement('drop view if exists taxon_concept_phenology_view');
         $createView = new CreateTaxonConceptPhenologyView;

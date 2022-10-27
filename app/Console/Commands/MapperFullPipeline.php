@@ -33,13 +33,13 @@ class MapperFullPipeline extends Command
         $this->info('Download data');
         $tasks = [
             [
-                'messsage' => 'Get AVH data',
+                'message' => 'Get AVH data',
                 'command' => function() {
                     $this->callSilent('mapper:get-ala-data');
                 }
             ],
             [
-                'messsage' => 'Get VBA data',
+                'message' => 'Get VBA data',
                 'command' => function() {
                     $this->callSilent('mapper:get-ala-data', 
                             ['--dataset' => 'vba']);

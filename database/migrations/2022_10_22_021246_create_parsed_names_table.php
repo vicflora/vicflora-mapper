@@ -43,8 +43,6 @@ return new class extends Migration
             $table->index('name_match_type');
             $table->index('scientific_name');
             $table->index('vicflora_scientific_name_id');
-            $table->foreign('vicflora_scientific_name_id')
-                    ->references('scientific_name_id')->on('taxa');
         });
     }
 

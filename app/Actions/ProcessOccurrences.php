@@ -109,7 +109,7 @@ limit 1000;        */
                 )
                 ->orderBy('d.uuid')
                 ->chunk($this->chunk, function($rows) {
-                    echo "$this->start\n";
+                    // echo "$this->start\n";
                     $data = [];
                     foreach ($rows as $row) {
                         $insert = [
