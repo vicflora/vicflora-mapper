@@ -104,6 +104,10 @@ class ProcessOccurrences {
             $startIndex += $pageSize;
         }
 
+        Schema::table("$schema.$table", function(Blueprint $table) {
+            $table->dropColumn('row_index');
+        });
+
         return 0;
     }
 }
