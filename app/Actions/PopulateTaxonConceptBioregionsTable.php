@@ -33,12 +33,12 @@ class PopulateTaxonConceptBioregionsTable {
                         $taxonConceptIds[] = $row->taxon_concept_id;
                     }
 
-                    $select = DB::table('taxon_concept_occurrences_view as tco')
+                    $select = DB::table('taxon_occurrences_view as tco')
                             ->join('mapper_overlays.bioregions as b', function($query) {
                                 $query->where(DB::raw("public.ST_Intersects(tco.geom, b.geom)"), true);
                             })
                             ->whereIn('tco.taxon_concept_id', $taxonConceptIds)
-                            ->groupBy('tco.taxon_concept_id', 't.id', 'b.id')
+                            ->groupBy('tco.taxon_concept_id', 'b.id')
                             ->select(
                                 'tco.taxon_concept_id',
                                 'b.id as bioregion_id',

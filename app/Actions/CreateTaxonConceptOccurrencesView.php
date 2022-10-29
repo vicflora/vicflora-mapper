@@ -70,9 +70,9 @@ CREATE OR REPLACE VIEW mapper.taxon_occurrences_view
     o.scientific_name AS provided_scientific_name
    FROM mapper.taxon_concept_occurrences tco
      JOIN mapper.occurrences o ON tco.occurrence_id = o.id
-     LEFT JOIN assertions aocc ON o.id = aocc.occurrence_id AND aocc.term::text = 'occurrenceStatus'::text
-     LEFT JOIN assertions aest ON o.id = aest.occurrence_id AND aest.term::text = 'establishmentMeans'::text
-     LEFT JOIN assertions adeg ON o.id = adeg.occurrence_id AND adeg.term::text = 'degreeOfEstablishment'::text
+     LEFT JOIN public.assertions aocc ON o.id = aocc.occurrence_id AND aocc.term::text = 'occurrenceStatus'::text
+     LEFT JOIN public.assertions aest ON o.id = aest.occurrence_id AND aest.term::text = 'establishmentMeans'::text
+     LEFT JOIN public.assertions adeg ON o.id = adeg.occurrence_id AND adeg.term::text = 'degreeOfEstablishment'::text
      JOIN mapper.taxa t ON tco.taxon_concept_id = t.id
 SQL;
         DB::statement($sql);
