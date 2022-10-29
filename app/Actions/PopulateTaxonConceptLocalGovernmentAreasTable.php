@@ -33,12 +33,12 @@ class PopulateTaxonConceptLocalGovernmentAreasTable {
                         $taxonConceptIds[] = $row->taxon_concept_id;
                     }
 
-                    $select = DB::table('taxon_concept_occurrences_view as tco')
+                    $select = DB::table('taxon_occurrences_view as tco')
                             ->join('mapper_overlays.local_government_areas as lga', function($query) {
                                 $query->where(DB::raw("public.ST_Intersects(tco.geom, lga.geom)"), true);
                             })
                             ->whereIn('tco.taxon_concept_id', $taxonConceptIds)
-                            ->groupBy('tco.taxon_concept_id', 't.id', 'lga.id')
+                            ->groupBy('tco.taxon_concept_id', 'lga.id')
                             ->select(
                                 'tco.taxon_concept_id',
                                 'lga.id as local_government_area_id',

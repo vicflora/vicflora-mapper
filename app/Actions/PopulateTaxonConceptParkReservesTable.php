@@ -33,12 +33,12 @@ class PopulateTaxonConceptParkReservesTable {
                         $taxonConceptIds[] = $row->taxon_concept_id;
                     }
 
-                    $select = DB::table('taxon_concept_occurrences_view as tco')
+                    $select = DB::table('taxon_occurrences_view as tco')
                             ->join('mapper_overlays.park_reserves as pr', function($query) {
                                 $query->where(DB::raw("public.ST_Intersects(tco.geom, pr.geom)"), true);
                             })
                             ->whereIn('tco.taxon_concept_id', $taxonConceptIds)
-                            ->groupBy('tco.taxon_concept_id', 't.id', 'pr.id')
+                            ->groupBy('tco.taxon_concept_id', 'pr.id')
                             ->select(
                                 'tco.taxon_concept_id',
                                 'pr.id as park_reserve_id',
