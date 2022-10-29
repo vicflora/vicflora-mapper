@@ -7,6 +7,7 @@ use App\Actions\CreateTaxonConceptParkReservesTable;
 use App\Actions\CreateTaxonParkReservesView;
 use App\Actions\PopulateTaxonConceptParkReservesTable;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class ProcessTaxonConceptParkReservesCommand extends Command
@@ -32,6 +33,7 @@ class ProcessTaxonConceptParkReservesCommand extends Command
      */
     public function handle()
     {
+        DB::statement('drop view if exists mapper.taxon_park_reserves_view');
         Schema::dropIfExists('taxon_concept_park_reserves');
 
         $this->info('Create taxon_concept_park_reserves table');

@@ -33,7 +33,7 @@ class PopulateTaxonConceptRapsTable {
                         $taxonConceptIds[] = $row->taxon_concept_id;
                     }
 
-                    $select = DB::table('taxon_occurrences_view as tco')
+                    $select = DB::table('taxon_occurrences_materialized_view as tco')
                             ->join('mapper_overlays.raps as r', function($query) {
                                 $query->where(DB::raw("public.ST_Intersects(tco.geom, r.geom)"), true);
                             })

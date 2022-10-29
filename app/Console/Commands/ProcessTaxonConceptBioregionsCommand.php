@@ -33,6 +33,7 @@ class ProcessTaxonConceptBioregionsCommand extends Command
      */
     public function handle()
     {
+        DB::statement('drop view if exists mapper.taxon_bioregions_view');
         Schema::dropIfExists('taxon_concept_bioregions');
 
         $this->info('Create taxon_concept_bioregions table');

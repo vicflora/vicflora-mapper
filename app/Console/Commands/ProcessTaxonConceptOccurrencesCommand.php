@@ -6,6 +6,7 @@ use App\Actions\AddIndexesToTaxonConceptOccurrencesTable;
 use App\Actions\CreateTaxonConceptOccurrencesTable;
 use App\Actions\CreateTaxonConceptOccurrencesView;
 use App\Actions\CreateTaxonConceptPhenologyView;
+use App\Actions\CreateTaxonOccurrencesMaterializedView;
 use App\Actions\PopulateTaxonConceptOccurrencesTable;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -34,33 +35,37 @@ class ProcessTaxonConceptOccurrencesCommand extends Command
      */
     public function handle()
     {
-        DB::statement('drop view if exists mapper.taxon_occurrences_view');
-        DB::statement('drop view if exists mapper.taxon_concept_phenology_view');
-        Schema::dropIfExists('taxon_concept_occurrences');
+        // DB::statement('drop view if exists mapper.taxon_occurrences_view');
+        // DB::statement('drop view if exists mapper.taxon_concept_phenology_view');
+        // Schema::dropIfExists('taxon_concept_occurrences');
 
-        $this->info('Create taxon_concept_occurrences table');
-        $create = new CreateTaxonConceptOccurrencesTable;
-        $create();
+        // $this->info('Create taxon_concept_occurrences table');
+        // $create = new CreateTaxonConceptOccurrencesTable;
+        // $create();
 
-        $this->info('Populate taxon_concept_occurrences table');
-        $this->info(date('H:i:s'));
-        $populate = new PopulateTaxonConceptOccurrencesTable;
-        $populate();
-        $this->info(date('H:i:s'));
+        // $this->info('Populate taxon_concept_occurrences table');
+        // $this->info(date('H:i:s'));
+        // $populate = new PopulateTaxonConceptOccurrencesTable;
+        // $populate();
+        // $this->info(date('H:i:s'));
 
-        $this->info('Add indexes');
-        $addIndexes = new AddIndexesToTaxonConceptOccurrencesTable;
-        $addIndexes();
+        // $this->info('Add indexes');
+        // $addIndexes = new AddIndexesToTaxonConceptOccurrencesTable;
+        // $addIndexes();
 
-        $this->info('Create taxon_occurrences_view');
-        DB::statement('drop view if exists taxon_occurrences_view');
-        $createView = new CreateTaxonConceptOccurrencesView;
-        $createView();
+        // $this->info('Create taxon_occurrences_view');
+        // DB::statement('drop view if exists taxon_occurrences_view');
+        // $createView = new CreateTaxonConceptOccurrencesView;
+        // $createView();
+
+        $this->info('Create taxon_occurrences_materialized_view');
+        $createMaterializedView = new CreateTaxonOccurrencesMaterializedView;
+        $createMaterializedView();
         
-        $this->info('Create taxon_concept_phenology_view');
-        DB::statement('drop view if exists taxon_concept_phenology_view');
-        $createView = new CreateTaxonConceptPhenologyView;
-        $createView();
+        // $this->info('Create taxon_concept_phenology_view');
+        // DB::statement('drop view if exists taxon_concept_phenology_view');
+        // $createView = new CreateTaxonConceptPhenologyView;
+        // $createView();
 
         return Command::SUCCESS;
     }

@@ -7,6 +7,7 @@ use App\Actions\CreateTaxonConceptLocalGovernmentAreasTable;
 use App\Actions\CreateTaxonLocalGovernmentAreasView;
 use App\Actions\PopulateTaxonConceptLocalGovernmentAreasTable;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class ProcessTaxonConceptLocalGovernmentAreasCommand extends Command
@@ -32,6 +33,7 @@ class ProcessTaxonConceptLocalGovernmentAreasCommand extends Command
      */
     public function handle()
     {
+        DB::statement('drop view if exists mapper.taxon_local_government_areas_view');
         Schema::dropIfExists('taxon_concept_local_government_areas');
 
         $this->info('Create taxon_concept_local_government_areas table');
