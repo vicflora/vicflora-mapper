@@ -85,7 +85,7 @@ class MapperFullPipeline extends Command
             [
                 'message' => 'Process taxon Registered Aboriginal Parties',
                 'command' => function() {
-                    $this->callSilent('mapper:process-taxon-concept-registered-aboriginal-parties');
+                    $this->callSilent('mapper:process-taxon-concept-raps');
                 }
             ],
         ];
