@@ -26,7 +26,6 @@ class ProcessOccurrences {
     {
         Schema::table("$schema.$table", function (Blueprint $table) {
             $table->bigIncrements('row_index');
-            $table->index('row_index');
         });
 
         $total = DB::table("$schema.$table")->count();
