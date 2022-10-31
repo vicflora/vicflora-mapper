@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Actions\ProcessOccurrences;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class ProcessOccurrencesCommand extends Command
 {
@@ -28,6 +29,9 @@ class ProcessOccurrencesCommand extends Command
      */
     public function handle()
     {
+        $dataSource = strtoupper($this->option('dataset'));
+        DB::statement("delete from mapper.occurrences where data_source='$dataSource'");
+
         $process = new ProcessOccurrences;
         $process($this->option('dataset') . '_data');
         return Command::SUCCESS;

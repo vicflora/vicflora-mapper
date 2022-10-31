@@ -17,6 +17,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->timestampsTz();
             $table->string('data_resource_uid', 16);
+            $table->string('data_source', 16);
             $table->string('collection')->nullable();
             $table->string('catalog_number', 32);
             $table->string('scientific_name')->nullable();

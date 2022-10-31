@@ -73,7 +73,8 @@ class ProcessOccurrences {
                 ),
                 DB::raw("case when d.reproductive_condition like '%flowers%' then true else null end as flowers"),
                 DB::raw("case when d.reproductive_condition like '%fruit%' then true else null end as fruit"),
-                DB::raw("case when d.reproductive_condition like '%buds%' then true else null end as buds")
+                DB::raw("case when d.reproductive_condition like '%buds%' then true else null end as buds"),
+                DB::raw("case d.data_resource_uid when 'dr1097' then 'VBA' else 'AVH' end as data_source")
             )
             ->where('d.row_index', '>', $startIndex)
             ->limit($pageSize);
@@ -100,6 +101,7 @@ class ProcessOccurrences {
                 'flowers',
                 'fruit',
                 'buds',
+                'data_source',
             ], $occurrences);
 
             $startIndex += $pageSize;
