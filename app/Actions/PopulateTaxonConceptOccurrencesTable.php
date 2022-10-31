@@ -29,7 +29,8 @@ class PopulateTaxonConceptOccurrencesTable {
         $select = DB::table('taxa as t')
                 ->join('parsed_names as pn', 't.scientific_name_id', '=', 'pn.vicflora_scientific_name_id')
                 ->join('occurrences as o', 'pn.id', '=', 'o.parsed_name_id')
-                ->select('t.species_id as taxon_concept_id', 'o.id as occurrence_id')
+                ->whereColumn('t.accepted_name_usage_id', '!=', 't.species_id')
+                ->select('t.accepted_name_usage_id as taxon_concept_id', 'o.id as occurrence_id')
                 ->union($first);
 
         DB::table('taxon_concept_occurrences')->insertUsing([
