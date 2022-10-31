@@ -58,6 +58,7 @@ class ProcessOccurrences {
                         when d.establishment_means = 'unknown' then 'uncertain'
                         when d.establishment_means = 'cultivated' or d.degree_of_establishment = 'cultivated' then 'introduced'
                         when d.establishment_means = 'naturalised' then 'introduced'
+                        when d.establishment_means = '' then null
                         else d.establishment_means 
                     end as establishment_means"
                 ),
@@ -66,6 +67,7 @@ class ProcessOccurrences {
                         when d.establishment_means = 'native' or d.degree_of_establishment = 'native' then 'native'
                         when d.establishment_means = 'cultivated' or d.degree_of_establishment = 'cultivated' then 'cultivated'
                         when d.establishment_means = 'naturalised' then 'established'
+                        when d.establishment_means = '' then null
                         else d.degree_of_establishment 
                     end as degree_of_establishment"
                 ),
