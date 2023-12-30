@@ -17,7 +17,7 @@ namespace App\Actions;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Storage;
-use ZanySoft\Zip\Zip;
+use ZipArchive;
 
 class GetAlaDownload {
 
@@ -43,8 +43,15 @@ class GetAlaDownload {
         if (isset($json->downloadUrl)) {
             $contents = file_get_contents($json->downloadUrl);
             Storage::put("ala/$filename.zip", $contents);
-            $zip = Zip::open(storage_path('app/ala') . "/$filename.zip");
-            $zip->extract(storage_path("app/ala/$filename"));
+            // $zip = Zip::open(storage_path('app/ala') . "/$filename.zip");
+            $zip = new ZipArchive();
+            if ($zip->open(storage_path('app/ala') . "/$filename.zip") === true) {
+                $file = $zip->getFromName($filename);
+                Storage::put(storage_path("app/ala/$filename"), $file);
+            }
+
+
+            // $zip->extract(storage_path("app/ala/$filename"));
         }
         else {
             sleep($wait);
