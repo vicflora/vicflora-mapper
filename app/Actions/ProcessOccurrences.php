@@ -1,12 +1,12 @@
 <?php
 // Copyright 2022 Royal Botanic Gardens Board
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //     http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,19 +21,23 @@ use Illuminate\Support\Facades\Schema;
 
 class ProcessOccurrences {
 
-    
-    public function __invoke(string $table, string $schema='ala', $pageSize=1000, $startIndex=0)
+
+    public function __invoke(string $dataSource='AVH', string $schema='ala', $pageSize=1000, $startIndex=0)
     {
-        Schema::table("$schema.$table", function (Blueprint $table) {
-            $table->bigIncrements('row_index');
-        });
+        $table = strtolower($dataSource) . '_data';
+
+        if (!Schema::hasColumn("$schema.$table", 'row_index')) {
+            Schema::table("$schema.$table", function (Blueprint $table) {
+                $table->bigIncrements('row_index');
+            });
+        }
 
         $total = DB::table("$schema.$table")->count();
 
         while ($startIndex < $total) {
             $occurrences = DB::table("$schema.$table as d")
-            ->leftJoin('mapper.parsed_names as pn', 
-                    'd.unprocessed_scientific_name', '=', 
+            ->leftJoin('mapper.parsed_names as pn',
+                    'd.unprocessed_scientific_name', '=',
                     'pn.scientific_name')
             ->select(
                 'd.uuid',
@@ -59,7 +63,7 @@ class ProcessOccurrences {
                         when d.establishment_means = 'cultivated' or d.degree_of_establishment = 'cultivated' then 'introduced'
                         when d.establishment_means = 'naturalised' then 'introduced'
                         when d.establishment_means = '' then null
-                        else d.establishment_means 
+                        else d.establishment_means
                     end as establishment_means"
                 ),
                 DB::raw(
@@ -68,7 +72,7 @@ class ProcessOccurrences {
                         when d.establishment_means = 'cultivated' or d.degree_of_establishment = 'cultivated' then 'cultivated'
                         when d.establishment_means = 'naturalised' then 'established'
                         when d.establishment_means = '' then null
-                        else d.degree_of_establishment 
+                        else d.degree_of_establishment
                     end as degree_of_establishment"
                 ),
                 DB::raw("case when d.reproductive_condition like '%flowers%' then true else null end as flowers"),

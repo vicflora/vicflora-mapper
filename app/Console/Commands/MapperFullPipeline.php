@@ -14,14 +14,14 @@ class MapperFullPipeline extends Command
      *
      * @var string
      */
-    protected $signature = 'mapper:full-pipeline';
+    protected $signature = 'mapper:full-pipeline {--avh : Load AVH data} {--vba : Load VBA data}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Map occurrences to VicFlora concepts; optionally load new AVH or VBA data';
 
     /**
      * Execute the console command.
@@ -31,33 +31,49 @@ class MapperFullPipeline extends Command
     public function handle()
     {
         $this->info('Download data');
-        $tasks = [
-            [
-                'message' => 'Get AVH data',
-                'command' => function() {
-                    $this->callSilent('mapper:get-ala-data');
-                }
-            ],
-            [
-                'message' => 'Get VBA data',
-                'command' => function() {
-                    $this->callSilent('mapper:get-ala-data', 
-                            ['--dataset' => 'vba']);
-                }
-            ],
-            [
-                'message' => 'Process AVH occurrences',
-                'command' => function() {
-                    $this->callSilent('mapper:process-occurrences');
-                }
-            ],
-            [
-                'message' => 'Process VBA occurrences',
-                'command' => function() {
-                    $this->callSilent('mapper:process-occurrences', 
-                            ['--dataset' => 'vba']);
-                }
-            ],
+
+        $tasks = [];
+
+        // if the --avh option is set, get new AVH data
+        if ($this->option('avh')) {
+            $tasks = array_merge($tasks, [
+                [
+                    'message' => 'Get AVH data',
+                    'command' => function() {
+                        $this->callSilent('mapper:get-ala-data');
+                    }
+                ],
+                [
+                    'message' => 'Process AVH occurrences',
+                    'command' => function() {
+                        $this->callSilent('mapper:process-occurrences');
+                    }
+                ],
+            ]);
+        }
+
+        // if the --vba option is set, get new VBA data
+        if ($this->option('vba')) {
+            $tasks = array_merge($tasks, [
+                [
+                    'message' => 'Get VBA data',
+                    'command' => function() {
+                        $this->callSilent('mapper:get-ala-data',
+                                ['--dataset' => 'vba']);
+                    }
+                ],
+                [
+                    'message' => 'Process VBA occurrences',
+                    'command' => function() {
+                        $this->callSilent('mapper:process-occurrences',
+                                ['--dataset' => 'vba']);
+                    }
+                ],
+            ]);
+        }
+
+        // process occurrences and map against VicFlora concepts
+        $tasks = array_merge($tasks, [
             [
                 'message' => 'Process taxon occurrences',
                 'command' => function() {
@@ -88,7 +104,7 @@ class MapperFullPipeline extends Command
                     $this->callSilent('mapper:process-taxon-concept-raps');
                 }
             ],
-        ];
+        ]);
 
         $this->runTasks($tasks);
 

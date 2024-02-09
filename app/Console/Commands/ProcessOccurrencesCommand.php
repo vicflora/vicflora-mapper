@@ -33,7 +33,7 @@ class ProcessOccurrencesCommand extends Command
         DB::statement("delete from mapper.occurrences where data_source='$dataSource'");
 
         $process = new ProcessOccurrences;
-        $process($this->option('dataset') . '_data');
+        $process($dataSource);
         return Command::SUCCESS;
     }
 }
