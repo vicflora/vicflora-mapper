@@ -27,12 +27,12 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('mapper:full-pipeline')
             ->cron('0 21 * * 1,3,4,5')
-            ->sendOutputTo(storage_path('log/mapper-nightly-update.log'));
+            ->sendOutputTo(storage_path('logs/mapper-nightly-update.log'));
 
         $schedule->command('mapper:full-pipeline', ['--avh'])
             ->tuesdays()
             ->at('21:00')
-            ->sendOutputTo(storage_path('log/mapper-nightly-update.log'));
+            ->sendOutputTo(storage_path('logs/mapper-nightly-update.log'));
     }
 
     /**
