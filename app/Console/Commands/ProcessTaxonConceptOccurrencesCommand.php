@@ -35,37 +35,39 @@ class ProcessTaxonConceptOccurrencesCommand extends Command
      */
     public function handle()
     {
-        // DB::statement('drop view if exists mapper.taxon_occurrences_view');
-        // DB::statement('drop view if exists mapper.taxon_concept_phenology_view');
-        // Schema::dropIfExists('taxon_concept_occurrences');
+        DB::statement('drop view if exists mapper.taxon_occurrences_view');
+        DB::statement('drop view if exists mapper.taxon_concept_phenology_view');
+        DB::statement('drop view if exists taxon_concept_phenology_view');
+        DB::statement('drop materialized view if exists mapper.taxon_occurrences_materialized_view');
 
-        // $this->info('Create taxon_concept_occurrences table');
-        // $create = new CreateTaxonConceptOccurrencesTable;
-        // $create();
+        Schema::dropIfExists('taxon_concept_occurrences');
 
-        // $this->info('Populate taxon_concept_occurrences table');
-        // $this->info(date('H:i:s'));
-        // $populate = new PopulateTaxonConceptOccurrencesTable;
-        // $populate();
-        // $this->info(date('H:i:s'));
+        $this->info('Create taxon_concept_occurrences table');
+        $create = new CreateTaxonConceptOccurrencesTable;
+        $create();
 
-        // $this->info('Add indexes');
-        // $addIndexes = new AddIndexesToTaxonConceptOccurrencesTable;
-        // $addIndexes();
+        $this->info('Populate taxon_concept_occurrences table');
+        $this->info(date('H:i:s'));
+        $populate = new PopulateTaxonConceptOccurrencesTable;
+        $populate();
+        $this->info(date('H:i:s'));
 
-        // $this->info('Create taxon_occurrences_view');
-        // DB::statement('drop view if exists taxon_occurrences_view');
-        // $createView = new CreateTaxonConceptOccurrencesView;
-        // $createView();
+        $this->info('Add indexes');
+        $addIndexes = new AddIndexesToTaxonConceptOccurrencesTable;
+        $addIndexes();
+
+        $this->info('Create taxon_occurrences_view');
+        DB::statement('drop view if exists taxon_occurrences_view');
+        $createView = new CreateTaxonConceptOccurrencesView;
+        $createView();
 
         $this->info('Create taxon_occurrences_materialized_view');
         $createMaterializedView = new CreateTaxonOccurrencesMaterializedView;
         $createMaterializedView();
-        
-        // $this->info('Create taxon_concept_phenology_view');
-        // DB::statement('drop view if exists taxon_concept_phenology_view');
-        // $createView = new CreateTaxonConceptPhenologyView;
-        // $createView();
+
+        $this->info('Create taxon_concept_phenology_view');
+        $createView = new CreateTaxonConceptPhenologyView;
+        $createView();
 
         return Command::SUCCESS;
     }

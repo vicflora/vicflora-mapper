@@ -49,6 +49,12 @@ class MapperFullPipeline extends Command
                         $this->callSilent('mapper:process-occurrences');
                     }
                 ],
+                [
+                    'message' => 'Match new name strings',
+                    'command' => function() {
+                        $this->callSilent('mapper:parse-and-match-new-names');
+                    }
+                ],
             ]);
         }
 
@@ -69,11 +75,23 @@ class MapperFullPipeline extends Command
                                 ['--dataset' => 'vba']);
                     }
                 ],
+                [
+                    'message' => 'Match new name strings',
+                    'command' => function() {
+                        $this->callSilent('mapper:parse-and-match-new-names');
+                    }
+                ],
             ]);
         }
 
         // process occurrences and map against VicFlora concepts
         $tasks = array_merge($tasks, [
+            [
+                'message' => 'Get taxon data',
+                'command' => function() {
+                    $this->callSilent('mapper:get-taxon-data');
+                }
+            ],
             [
                 'message' => 'Process taxon occurrences',
                 'command' => function() {
