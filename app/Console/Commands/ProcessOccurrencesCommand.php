@@ -29,11 +29,22 @@ class ProcessOccurrencesCommand extends Command
      */
     public function handle()
     {
-        $dataSource = strtoupper($this->option('dataset'));
-        DB::statement("delete from mapper.occurrences where data_source='$dataSource'");
+        $count = DB::table('ala.' . $this->option('dataset') . '_data')
+            ->count();
+        if ($count) {
+            $dataSource = strtoupper($this->option('dataset'));
+            DB::statement("delete from mapper.occurrences where data_source='$dataSource'");
 
-        $process = new ProcessOccurrences;
-        $process($dataSource);
-        return Command::SUCCESS;
+            $process = new ProcessOccurrences;
+            $process($dataSource);
+            return Command::SUCCESS;
+        }
+        else {
+            $this->error('No data in table');
+            return Command::FAILURE;
+        }
+
+
+
     }
 }

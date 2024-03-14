@@ -1,12 +1,12 @@
 <?php
 // Copyright 2022 Royal Botanic Gardens Board
-// 
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-// 
+//
 //     http://www.apache.org/licenses/LICENSE-2.0
-// 
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,7 +26,7 @@ class DownloadOccurrenceData {
     {
         $this->client = new Client();
     }
-    
+
     public function __invoke(string $q, string $table)
     {
         $fields = [
@@ -39,7 +39,7 @@ class DownloadOccurrenceData {
             'longitude',
             'recordedBy',
             'recordNumber',
-            'raw_eventDate',
+            'eventDate',
             'raw_establishmentMeans',
             'raw_degreeOfEstablishment',
             'raw_locality',
@@ -48,12 +48,16 @@ class DownloadOccurrenceData {
         ];
 
         $fq = [
-            'state:Victoria',
-            'latitude:[* TO *]',
-            'longitude:[* TO *]',
-            '-raw_identification_qualifier:[* TO *]',
+            'stateProvince:Victoria',
+            'decimalLatitude:*',
+            'decimalLongitude:*',
+            '-raw_identificationQualifier:*',
             'kingdom:Plantae',
         ];
+
+        if ($table == 'avh_data') {
+            $fq[] = '-data_resource_uid:dr13282';
+        }
 
         $query = [
             'q' => $q,
@@ -63,6 +67,7 @@ class DownloadOccurrenceData {
             'email' => 'Niels.Klazenga@rbg.vic.gov.au',
             'emailNotify' => false,
             'reasonType' => 4,
+            'disableAllQualityFilters' => 'true',
         ];
 
         $queryString = Query::build($query);

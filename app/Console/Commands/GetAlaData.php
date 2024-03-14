@@ -48,7 +48,6 @@ class GetAlaData extends Command
         $download = new DownloadOccurrenceData;
         $download($dataset['query'], $dataset['table']);
 
-
         $createTable = new CreateAlaDataTable;
         $createTable($dataset['table']);
 
