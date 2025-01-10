@@ -38,6 +38,7 @@ class ProcessTaxonConceptOccurrencesCommand extends Command
         DB::statement('drop view if exists mapper.taxon_occurrences_view');
         DB::statement('drop view if exists mapper.taxon_concept_phenology_view');
         DB::statement('drop view if exists taxon_concept_phenology_view');
+        DB::statement('drop view if exists taxon_concept_last_collected_view');
         DB::statement('drop materialized view if exists mapper.taxon_occurrences_materialized_view');
 
         Schema::dropIfExists('taxon_concept_occurrences');

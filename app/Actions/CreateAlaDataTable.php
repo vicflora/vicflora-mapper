@@ -43,7 +43,7 @@ class CreateAlaDataTable {
             $table->double('longitude');
             $table->text('locality')->nullable();
             $table->text('verbatim_locality')->nullable();
-            $table->string('establishment_means', 32)->nullable();
+            $table->string('establishment_means')->nullable();
             $table->string('degree_of_establishment', 32)->nullable();
             $table->string('reproductive_condition')->nullable();
             $table->bigInteger('parsed_name_id')->nullable();
