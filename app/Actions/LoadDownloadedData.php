@@ -18,8 +18,8 @@ namespace App\Actions;
 class LoadDownloadedData {
 
     public function __invoke(string $table, string $schema='ala')
-    {
-        $columns = 'uuid,data_resource_uid,collection,catalog_number,unprocessed_scientific_name,latitude,longitude,recorded_by,record_number,event_date,establishment_means,locality,verbatim_locality,reproductive_condition';
+    { 
+        $columns = 'uuid,data_resource_uid,collection,catalog_number,unprocessed_scientific_name,latitude,longitude,recorded_by,record_number,event_date,establishment_means,degree_of_establishment,locality,verbatim_locality,reproductive_condition';
         $filename = storage_path("app/ala/$table/data.csv");
         $host = env('DB_HOST');
         $passwd = env('DB_PASSWORD');
