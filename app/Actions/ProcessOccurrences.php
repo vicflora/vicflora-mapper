@@ -72,8 +72,8 @@ class ProcessOccurrences {
                         when d.establishment_means = 'cultivated' or d.degree_of_establishment = 'cultivated' then 'cultivated'
                         when d.establishment_means = 'naturalised' then 'established'
                         when d.establishment_means = '' then null
-                        else d.degree_of_establishment
-                    end as substring(d.degree_of_establishment from 1 for 32)"
+                        else substring(d.degree_of_establishment from 1 for 32)
+                    end as degree_of_establishment"
                 ),
                 DB::raw("case when d.reproductive_condition like '%flowers%' then true else null end as flowers"),
                 DB::raw("case when d.reproductive_condition like '%fruit%' then true else null end as fruit"),
