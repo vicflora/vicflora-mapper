@@ -27,7 +27,7 @@ class PopulateTaxonConceptRapsTable {
         DB::table('taxa')->select('species_id as taxon_concept_id')
                 ->union($first)
                 ->orderBy('taxon_concept_id')
-                ->chunk(100, function($rows) {
+                ->chunk(1000, function($rows) {
                     $taxonConceptIds = [];
                     foreach ($rows as $row) {
                         $taxonConceptIds[] = $row->taxon_concept_id;

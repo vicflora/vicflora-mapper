@@ -40,20 +40,20 @@ class ProcessOccurrences {
                     'd.unprocessed_scientific_name', '=',
                     'pn.scientific_name')
             ->select(
-                'd.uuid',
+                'd.uuid as id',
                 DB::raw('now() as created_at'),
                 DB::raw('now() as updated_at'),
                 'd.data_resource_uid',
                 'd.collection',
                 'd.catalog_number',
-                'd.unprocessed_scientific_name',
+                'd.unprocessed_scientific_name as scientific_name',
                 'd.recorded_by',
                 'd.record_number',
                 'd.event_date',
                 'd.locality',
                 'd.verbatim_locality',
-                'd.latitude',
-                'd.longitude',
+                'd.latitude as decimal_latitude',
+                'd.longitude as decimal_longitude',
                 DB::raw("public.ST_PointFromText('POINT('||d.longitude||' '||d.latitude||')', 4326) as geom"),
                 'pn.id as parsed_name_id',
                 DB::raw(
@@ -83,30 +83,8 @@ class ProcessOccurrences {
             ->where('d.row_index', '>', $startIndex)
             ->limit($pageSize);
 
-            DB::table('mapper.occurrences')->insertUsing([
-                'id',
-                'created_at',
-                'updated_at',
-                'data_resource_uid',
-                'collection',
-                'catalog_number',
-                'scientific_name',
-                'recorded_by',
-                'record_number',
-                'event_date',
-                'locality',
-                'verbatim_locality',
-                'decimal_latitude',
-                'decimal_longitude',
-                'geom',
-                'parsed_name_id',
-                'establishment_means',
-                'degree_of_establishment',
-                'flowers',
-                'fruit',
-                'buds',
-                'data_source',
-            ], $occurrences);
+            $data = $occurrences->get()->map(fn ($row) => (array) $row);
+            DB::table('mapper.occurrences')->insertOrIgnore($data->toArray());
 
             $startIndex += $pageSize;
         }

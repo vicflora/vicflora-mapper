@@ -53,11 +53,9 @@ class DownloadOccurrenceData {
             'decimalLongitude:*',
             '-raw_identificationQualifier:*',
             'kingdom:Plantae',
+            '-userAssertions:50001',
+            '-userAssertions:50005'
         ];
-
-        if ($table == 'avh_data') {
-            $fq[] = '-data_resource_uid:dr13282';
-        }
 
         $query = [
             'q' => $q,
