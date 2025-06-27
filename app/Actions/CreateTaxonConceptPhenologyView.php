@@ -1,25 +1,24 @@
 <?php
-// Copyright 2022 Royal Botanic Gardens Board
-// 
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-// 
-//     http://www.apache.org/licenses/LICENSE-2.0
-// 
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
 
 namespace App\Actions;
 
 use Illuminate\Support\Facades\DB;
 
-class CreateTaxonConceptPhenologyView {
-    
-    public function __invoke()
+class CreateTaxonConceptPhenologyView
+{
+    private string $connection;
+    /**
+     * Create a new class instance.
+     */
+    public function __construct(string $connection)
+    {
+        $this->connection = $connection;
+    }
+
+    /**
+     * Invoke the class instance.
+     */
+    public function __invoke(): void
     {
         $sql = <<<SQL
 create view mapper.taxon_concept_phenology_view as
@@ -53,8 +52,6 @@ where o.event_date ~ '\d{4}-\d{2}(\d{2})?'
 group by t.id, substring(o.event_date from 6 for 2)::integer
 order by scientific_name, month_numerical
 SQL;
-        DB::statement($sql);
-
-        return 0;
+        DB::connection($this->connection)->statement($sql);
     }
 }
