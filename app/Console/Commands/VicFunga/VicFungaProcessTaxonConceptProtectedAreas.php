@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\vicflora;
+namespace App\Console\Commands\VicFunga;
 
 use App\Actions\AddIndexesToTaxonConceptAreasTable;
 use App\Actions\CreateTaxonConceptAreasTable;
@@ -10,14 +10,14 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class ProcessTaxonConceptProtectedAreas extends Command
+class VicFungaProcessTaxonConceptProtectedAreas extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'vicflora:process-taxon-concept-protected-areas';
+    protected $signature = 'vicfunga:process-taxon-concept-protected-areas';
 
     /**
      * The console command description.
@@ -31,17 +31,17 @@ class ProcessTaxonConceptProtectedAreas extends Command
      */
     public function handle()
     {
-        DB::connection('vicflora')->statement("drop view if exists mapper.taxon_concept_protected_areas_view");
-        Schema::connection('vicflora')->dropIfExists('mapper.taxon_concept_protected_areas');
+        DB::connection('vicfunga')->statement("drop view if exists mapper.taxon_concept_protected_areas_view");
+        Schema::connection('vicfunga')->dropIfExists('mapper.taxon_concept_protected_areas');
 
         $this->info('Create taxon_concept_protected_areas table');
-        (new CreateTaxonConceptAreasTable(connection: 'vicflora'))(layer: 'protected_areas');
+        (new CreateTaxonConceptAreasTable(connection: 'vicfunga'))(layer: 'protected_areas');
 
         $this->info('Load taxon concept Protected Area data');
-        (new LoadTaxonConceptAreas(connection: 'vicflora'))(layer: 'protected_areas');
-        (new AddIndexesToTaxonConceptAreasTable(connection: 'vicflora'))(layer: 'protected_areas');
+        (new LoadTaxonConceptAreas(connection: 'vicfunga'))(layer: 'protected_areas');
+        (new AddIndexesToTaxonConceptAreasTable(connection: 'vicfunga'))(layer: 'protected_areas');
 
         $this->info('Create taxon_concept_protected_areas_view view');
-        (new CreateTaxonConceptProtectedAreasView(connection: 'vicflora'))();
+        (new CreateTaxonConceptProtectedAreasView(connection: 'vicfunga'))();
     }
 }

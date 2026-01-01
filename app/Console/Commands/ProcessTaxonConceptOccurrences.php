@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\VicFlora;
+namespace App\Console\Commands;
 
 use App\Actions\AddIndexesToTaxonConceptOccurrencesTable;
 use App\Actions\CreateTaxonConceptOccurrencesMaterializedView;

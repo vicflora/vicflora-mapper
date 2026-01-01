@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\vicflora;
+namespace App\Console\Commands;
 
 use App\Actions\AddRowIndex;
 use App\Actions\VicFlora\AddIndexesToOccurrencesTable;

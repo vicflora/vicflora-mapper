@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\vicflora;
+namespace App\Console\Commands;
 
 use App\Actions\CreateMapperTaxaTable;
 use App\Actions\GetTaxonData as ActionsGetTaxonData;

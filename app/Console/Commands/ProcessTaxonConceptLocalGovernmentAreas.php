@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\VicFunga;
+namespace App\Console\Commands;
 
 use App\Actions\AddIndexesToTaxonConceptAreasTable;
 use App\Actions\CreateTaxonConceptAreasTable;
@@ -17,7 +17,7 @@ class ProcessTaxonConceptLocalGovernmentAreas extends Command
      *
      * @var string
      */
-    protected $signature = 'vicfunga:process-taxon-concept-local-government-areas';
+    protected $signature = 'vicflora:process-taxon-concept-local-government-areas';
 
     /**
      * The console command description.
@@ -31,18 +31,18 @@ class ProcessTaxonConceptLocalGovernmentAreas extends Command
      */
     public function handle()
     {
-        DB::connection('vicfunga')->statement("drop view if exists mapper.taxon_concept_local_government_areas_view");
-        Schema::connection('vicfunga')->dropIfExists('mapper.taxon_concept_local_government_areas');
+        DB::connection('vicflora')->statement("drop view if exists mapper.taxon_concept_local_government_areas_view");
+        Schema::connection('vicflora')->dropIfExists('mapper.taxon_concept_local_government_areas');
 
         $this->info('Create taxon_concept_local_government_areas table');
-        (new CreateTaxonConceptAreasTable(connection: 'vicfunga'))(layer: 'local_government_areas');
+        (new CreateTaxonConceptAreasTable(connection: 'vicflora'))(layer: 'local_government_areas');
 
         $this->info('Load taxon concept Local Government Area data');
-        (new LoadTaxonConceptAreas(connection: 'vicfunga'))(layer: 'local_government_areas');
-        (new AddIndexesToTaxonConceptAreasTable(connection: 'vicfunga'))(layer: 'local_government_areas');
+        (new LoadTaxonConceptAreas(connection: 'vicflora'))(layer: 'local_government_areas');
+        (new AddIndexesToTaxonConceptAreasTable(connection: 'vicflora'))(layer: 'local_government_areas');
 
         $this->info('Create taxon_concept_local_government_areas_view view');
-        (new CreateTaxonConceptLocalGovernmentAreasView(connection: 'vicfunga'))();
+        (new CreateTaxonConceptLocalGovernmentAreasView(connection: 'vicflora'))();
 
     }
 }

@@ -7,7 +7,7 @@ use App\Actions\GetTaxonData as ActionsGetTaxonData;
 use App\Actions\MatchParsedNames;
 use Illuminate\Console\Command;
 
-class GetTaxonData extends Command
+class VicFungaGetTaxonData extends Command
 {
     /**
      * The name and signature of the console command.

@@ -42,6 +42,7 @@ class CreateOccurrencesTable
                 $table->string('ibra7_subregion')->nullable();
                 $table->string('lga2023')->nullable();
                 $table->string('capad2022')->nullable();
+                $table->string('rap')->nullable();
                 $table->string('establishment_means', 32)->nullable();
                 $table->string('degree_of_establishment', 32)->nullable();
                 $table->boolean('flowers')->nullable();

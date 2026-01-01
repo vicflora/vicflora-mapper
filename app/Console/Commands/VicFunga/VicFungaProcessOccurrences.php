@@ -11,7 +11,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class ProcessOccurrences extends Command
+class VicFungaProcessOccurrences extends Command
 {
     /**
      * The name and signature of the console command.

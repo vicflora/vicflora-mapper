@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\vicflora;
+namespace App\Console\Commands;
 
 use App\Traits\CommandConsoleMessageTrait;
 use Illuminate\Console\Command;

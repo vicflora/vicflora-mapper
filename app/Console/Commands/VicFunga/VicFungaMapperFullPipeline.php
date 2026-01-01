@@ -5,7 +5,7 @@ namespace App\Console\Commands\VicFunga;
 use App\Traits\CommandConsoleMessageTrait;
 use Illuminate\Console\Command;
 
-class MapperFullPipeline extends Command
+class VicFungaMapperFullPipeline extends Command
 {
     use CommandConsoleMessageTrait;
 

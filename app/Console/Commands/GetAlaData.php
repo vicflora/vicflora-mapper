@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Console\Commands\VicFunga;
+namespace App\Console\Commands;
 
-use App\Actions\VicFunga\CreateAlaDataTable;
-use App\Actions\VicFunga\DownloadOccurrenceData;
+use App\Actions\VicFlora\CreateAlaDataTable;
+use App\Actions\VicFlora\DownloadOccurrenceData;
 use App\Actions\LoadDownloadedData;
 use Illuminate\Console\Command;
 
@@ -14,7 +14,7 @@ class GetAlaData extends Command
      *
      * @var string
      */
-    protected $signature = 'vicfunga:get-ala-data';
+    protected $signature = 'vicflora:get-ala-data {--data-source=avh}';
 
     /**
      * The console command description.
@@ -28,15 +28,30 @@ class GetAlaData extends Command
      */
     public function handle()
     {
+
+        $datasets = [
+            'avh' => [
+                'table' => 'avh_data',
+                'query' => 'data_hub_uid:dh9',
+            ],
+            'vba' => [
+                'table' => 'vba_data',
+                'query' => 'data_resource_uid:dr1097'
+            ],
+        ];
+
+        $dataset = $datasets[$this->option('data-source')];
+
+
         $this->info('Download Occurrence data...');
 
-        (new DownloadOccurrenceData)();
+        (new DownloadOccurrenceData)(q: $dataset['query'], table: $dataset['table']);
 
         $this->info('upload downloaded data to database...');
 
-        (new CreateAlaDataTable)();
+        (new CreateAlaDataTable)(table: $dataset['table']);
 
-        $filename = storage_path("app/private/ala/fungi_data/data.csv");
+        $filename = storage_path("app/private/ala/{$dataset['table']}/data.csv");
 
         $columns = [
             'uuid',
@@ -63,6 +78,11 @@ class GetAlaData extends Command
             'ibra7_subregion',
         ];
 
-        (new LoadDownloadedData)($filename, $columns, 'vicfunga');
+        (new LoadDownloadedData)(
+            filename: $filename, 
+            columns: $columns, 
+            connection: 'vicflora',
+            table: $dataset['table']
+        );
     }
 }
