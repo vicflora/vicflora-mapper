@@ -1,0 +1,33 @@
+{
+  "name": "Laradock",
+  "dockerComposeFile": "../../laradock/docker-compose.custom.yml",
+  "runServices": [
+    "postgres-postgis",
+    "nginx",
+    "solr",
+    "geoserver"
+  ],
+  "remoteUser": "laradock",
+  "service": "workspace",
+  "workspaceFolder": "/var/www/vicflora-mapper",
+  "shutdownAction": "stopCompose",
+  "postCreateCommand": "uname -a",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "neilbrayfield.php-docblocker",
+        "laravel.vscode-laravel",
+        "graphql.vscode-graphql-syntax",
+        "mechatroner.rainbow-csv",
+        "github.vscode-pull-request-github",
+        "eamodio.gitlens",
+        "bierner.markdown-preview-github-styles",
+        "brunnerh.insert-unicode",
+        "bradlc.vscode-tailwindcss",
+        "bierner.markdown-mermaid",
+        "vstirbu.vscode-mermaid-preview"
+      ]
+    }
+  }
+}

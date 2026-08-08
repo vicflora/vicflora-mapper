@@ -22,14 +22,17 @@ class CreateTaxonConceptLocalGovernmentAreasView
     public function __invoke(): void
     {
         $sql = <<<SQL
-CREATE OR REPLACE VIEW mapper.taxon_concept_local_government_areas_view
-AS SELECT tclga.taxon_concept_id,
-    lga.id AS local_government_area_id,
-    lga.name,
-    lga.state,
-    lga.geom
-FROM mapper.taxon_concept_local_government_areas tclga
-JOIN mapper_overlays.local_government_areas lga ON tclga.area_id = lga.id
+CREATE OR REPLACE VIEW mapper.taxon_concept_lgas_view
+AS SELECT tcl.taxon_concept_id,
+    a.id AS lga_id,
+    a.name AS lga_name,
+    a.code AS lga_code,
+    tcl.occurrence_status,
+    tcl.establishment_means,
+    tcl.degree_of_establishment,
+    a.geom
+FROM mapper.taxon_concept_lga_mv tcl
+JOIN mapper.local_government_areas a ON tcl.area_id = a.id AND a.state::text = 'Victoria'::text
 SQL;
         DB::connection($this->connection)->statement($sql);
     }

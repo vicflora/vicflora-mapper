@@ -117,6 +117,12 @@ class MapperFullPipeline extends Command
                     $this->callSilent('vicflora:process-taxon-concept-raps');
                 }
             ],
+            [
+                'message' => 'Process taxon concept Catchments',
+                'command' => function() {
+                    $this->callSilent('vicflora:process-taxon-concept-catchments');
+                }
+            ],
         ]);
 
         $this->runTasks($tasks);
