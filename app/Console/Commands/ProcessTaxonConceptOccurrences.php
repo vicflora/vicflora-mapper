@@ -58,6 +58,7 @@ class ProcessTaxonConceptOccurrences extends Command
         (new CreateTaxonConceptOccurrencesView(connection: 'vicflora'))();
 
         $this->info('Create taxon_occurrences_materialized_view');
+        DB::connection('vicflora')->statement('drop materialized view if exists mapper.taxon_occurrences_materialized_view');
         (new CreateTaxonConceptOccurrencesMaterializedView(connection: 'vicflora'))();
 
         $this->info('Create taxon_concept_phenology_view');

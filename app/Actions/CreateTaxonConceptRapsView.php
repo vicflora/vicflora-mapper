@@ -29,7 +29,7 @@ SELECT tcl.taxon_concept_id,
     tcl.establishment_means,
     tcl.degree_of_establishment,
     a.geom
-FROM mapper.taxon_concept_rap_mv tcl
+FROM mapper.taxon_concept_raps tcl
 JOIN mapper.raps a ON tcl.area_id = a.id
 SQL;
     }

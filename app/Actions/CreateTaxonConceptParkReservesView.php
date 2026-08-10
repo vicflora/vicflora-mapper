@@ -32,7 +32,7 @@ SELECT tcl.taxon_concept_id,
     tcl.establishment_means,
     tcl.degree_of_establishment,
     a.geom
-FROM mapper.taxon_concept_park_reserve_mv tcl
+FROM mapper.taxon_concept_park_reserves tcl
 JOIN mapper.park_reserves a ON tcl.area_id = a.id
 SQL;
         DB::connection($this->connection)->statement($sql);
